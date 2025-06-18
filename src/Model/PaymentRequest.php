@@ -56,9 +56,9 @@ class PaymentRequest
     private string $cardHolderName = '';
 
     /**
-     * @var int Installment count (0 for single payment)
+     * @var int|null Installment count (0 for single payment)
      */
-    private int $installment = 0;
+    private $installment = null;
 
     /**
      * @var string Customer IP address
@@ -306,10 +306,10 @@ class PaymentRequest
     /**
      * Set installment count
      *
-     * @param int $installment Installment count (0 for single payment)
+     * @param int|null $installment Installment count (0 for single payment)
      * @return $this
      */
-    public function setInstallment(int $installment): self
+    public function setInstallment(?int $installment): self
     {
         $this->installment = $installment;
         return $this;
@@ -320,7 +320,7 @@ class PaymentRequest
      *
      * @return int
      */
-    public function getInstallment(): int
+    public function getInstallment(): ?int
     {
         return $this->installment;
     }
