@@ -69,7 +69,34 @@ $response = $client->initiate3DPayment($paymentRequest, 'https://example.com/cal
 // 3D Secure sayfasına yönlendirme
 echo $response->getHtmlContent();
 ```
-
+### 3D Tekrarlı Ödeme / Abonelik
+```php
+ $config = new Config(['recurring' => true]);
+        $client = new GarantiPosClient($config);
+        $paymentRequest = new PaymentRequest();
+        $paymentRequest->setOrderId('ORDER_'.rand(0,999999999))
+            ->setAmount(100.50) // TL cinsinden
+            ->setCurrency(Currency::TRY)
+            ->setCardNumber('kart no')
+            ->setCardExpireMonth('skt ay')
+            ->setCardExpireYear('skt yıl 2 hanelı')
+            ->setCardCvv('cvv')
+            ->setCardHolderName('John Doe')
+            ->setCustomerIp('127.0.0.1')
+            ->setInstallment(null)
+            ->setRecurringType('R') // Tekrarlı Ödeme Türü
+            ->setRecurringFrequencyType('M') // Gün (D) - AY (M) - HAFTA (W)
+            ->setRecurringFrequencyInterval(1) // Tekrar Süresi (Ayda 1 ise 1 yazılmalı, 3 ayda bir ise 3 yazılmalı. )
+            ->setRecurringTotalPaymentNum(12) // Ne kadar tekrar edecek
+            ->setRecurringStartDate(now()->format('Ymd')) // Başlangıç tarihi 20250618 formatında olmalı
+            ->setCustomerEmail('müşteri e posta');
+        
+        // 3D BAŞLAT
+        $response = $client->initiate3DPayment($paymentRequest,$config->getCallbackUrl());
+        
+        // DOĞRULAMA SAYFASI GÖSTER
+        echo $response->getHtmlContent();
+```
 ### 3D Secure Callback İşleme
 
 ```php
