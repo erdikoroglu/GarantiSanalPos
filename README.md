@@ -11,6 +11,7 @@ composer require w3/garanti-sanalpos
 ```
 
 ## Kullanım
+DEBUB mode varsayılan false dur ENV dosyasında yada Config içerisinde debugMode = true Yaparsanız garanti bankasının kendi debug sayfasına post işlemi gerçekleşir ve oradan aldığınız formu eticaretdestek@garantibbva.com.tr gönderirseniz destek olacaklardır. 
 
 ### Yapılandırma
 
@@ -25,7 +26,19 @@ $config = new Config([
     'userId' => 'USER_ID', // PROVAUTH
     'password' => 'PASSWORD',
     'mode' => 'TEST', // veya 'PROD' canlı ortam için
+    'debugMode' => false,
+    'storeKey' => 'STORE_KEY'
 ]);
+
+// Yada ENV dosyasnıza aşağıdaki ayarları ekleyin
+GARANTI_MERCHANT_ID=""
+GARANTI_TERMINAL_ID=""
+GARANTI_USER_ID=""
+GARANTI_USER_PASSWORD=""
+GARANTI_MODE="TEST"
+GARANTI_DEBUG_MODE=false
+GARANTI_STORE_KEY=""
+GARANTI_CALLBACK_URL=""
 
 // Client oluşturma
 $client = new GarantiPosClient($config);
@@ -47,6 +60,7 @@ $paymentRequest->setOrderId('ORDER_123456')
     ->setCardExpireYear('2025')
     ->setCardCvv('123')
     ->setCardHolderName('John Doe')
+    ->setCustomerEmail('john@example.com')
     ->setInstallment(0); // Tek çekim
 
 // 3D Secure başlatma
