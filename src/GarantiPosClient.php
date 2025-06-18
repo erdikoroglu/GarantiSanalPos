@@ -153,7 +153,7 @@ class GarantiPosClient
     private function preparePaymentXml(PaymentRequest $request): string
     {
         $terminalId = $this->config->getTerminalId();
-        $hash = $this->generateSecurityHash($request->getOrderId(), $terminalId);
+        $hash = $this->generateSecurityHash($request->getOrderId(),$terminalId,$request->getCardNumber(),$request->getAmount(),$request->getCurrency());
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
         $xml .= '<GVPSRequest>' . PHP_EOL;
@@ -218,7 +218,7 @@ class GarantiPosClient
     private function prepare3DSecureData(PaymentRequest $request, string $callbackUrl): array
     {
         $terminalId = $this->config->getTerminalId();
-        $securityData = $this->generateSecurityHash($request->getOrderId(), $terminalId);
+        $securityData = $this->generateSecurityHash($request->getOrderId(),$terminalId,$request->getCardNumber(),$request->getAmount(),$request->getCurrency());
         
         return [
             'mode' => $this->config->isTestMode() ? 'TEST' : 'PROD',
@@ -286,7 +286,7 @@ class GarantiPosClient
     private function prepare3DPaymentXml(PaymentRequest $request, array $postData): string
     {
         $terminalId = $this->config->getTerminalId();
-        $hash = $this->generateSecurityHash($request->getOrderId(), $terminalId);
+        $hash = $this->generateSecurityHash($request->getOrderId(),$terminalId,$request->getCardNumber(),$request->getAmount(),$request->getCurrency());
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
         $xml .= '<GVPSRequest>' . PHP_EOL;
@@ -408,10 +408,16 @@ class GarantiPosClient
      * @param string $terminalId Terminal ID
      * @return string Security hash
      */
-    private function generateSecurityHash(string $orderId, string $terminalId): string
+    private function generateSecurityHash(string $orderId, string $terminalId,string $cardNumber, string $amount,string $currencyCode): string
     {
         $securityData = strtoupper(sha1($this->config->getPassword() . str_pad($terminalId, 9, '0', STR_PAD_LEFT)));
-        $hash = strtoupper(sha1($orderId . $terminalId . $securityData));
+
+        //$hash = strtoupper(sha1($orderId . $terminalId . $securityData));
+        $data = [
+            $orderId,$terminalId,$cardNumber,$amount,$currencyCode,$securityData
+        ];
+
+        $hash = strtoupper(hash('sha512', implode('', $data)));
         
         return $hash;
     }
