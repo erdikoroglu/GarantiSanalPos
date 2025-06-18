@@ -413,7 +413,7 @@ class GarantiPosClient
         $securityData = strtoupper(sha1($this->config->getPassword() . 0 . $terminalId));
 
         $data = [
-            $terminalId,$orderId,$amount,$currencyCode,$successUrl,$successUrl,$type,$installment,$storeKey,$securityData
+            strval($terminalId),strval($orderId),strval($amount * 100),strval($currencyCode),$successUrl,$successUrl,$type,strval($installment),$storeKey,$securityData
         ];
 
         $hash = strtoupper(hash('sha512', implode('', $data)));
