@@ -11,7 +11,7 @@ composer require w3/garanti-sanalpos
 ```
 
 ## Kullanım
-DEBUB mode varsayılan false dur ENV dosyasında yada Config içerisinde debugMode = true Yaparsanız garanti bankasının kendi debug sayfasına post işlemi gerçekleşir ve oradan aldığınız formu eticaretdestek@garantibbva.com.tr gönderirseniz destek olacaklardır. 
+DEBUG mode varsayılan KAPALI dır ENV dosyasında yada Config içerisinde ``debugMode = true`` Yaparsanız garanti bankasının kendi debug sayfasına post işlemi gerçekleşir ve oradan aldığınız formu ``eticaretdestek@garantibbva.com.tr`` gönderirseniz destek olacaklardır. 
 
 ### Yapılandırma
 
@@ -19,7 +19,7 @@ DEBUB mode varsayılan false dur ENV dosyasında yada Config içerisinde debugMo
 use W3\GarantiSanalPos\Config;
 use W3\GarantiSanalPos\GarantiPosClient;
 
-// Yapılandırma oluşturma
+// Yapılandırma oluşturma env dosyasında ayar yoksa buraya array olarak girilmeli
 $config = new Config([
     'merchantId' => 'MERCHANT_ID',
     'terminalId' => 'TERMINAL_ID',
@@ -30,7 +30,7 @@ $config = new Config([
     'storeKey' => 'STORE_KEY'
 ]);
 
-// Yada ENV dosyasnıza aşağıdaki ayarları ekleyin
+// Yada ENV dosyasnıza aşağıdaki ayarları ekleyin. config içerisinde sadece boş array bırakın yeterli.
 GARANTI_MERCHANT_ID=""
 GARANTI_TERMINAL_ID=""
 GARANTI_USER_ID=""
