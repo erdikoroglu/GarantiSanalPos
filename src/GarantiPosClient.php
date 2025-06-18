@@ -408,7 +408,7 @@ class GarantiPosClient
      * @param string $terminalId Terminal ID
      * @return string Security hash
      */
-    private function generateSecurityHash(string $orderId, string $terminalId, string $amount,string $currencyCode,string $successUrl, string $type, string $storeKey,?string $installment): string
+    private function generateSecurityHash(string $orderId, string $terminalId, string $amount,string $successUrl, string $type, string $storeKey,?string $installment): string
     {
         $securityData = strtoupper(sha1($this->config->getPassword() . 0 . $terminalId));
 
