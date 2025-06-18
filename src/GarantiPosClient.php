@@ -259,12 +259,11 @@ class GarantiPosClient
 
         if ($this->config->getRecurring())
         {
-            $data['recurring'] = [];
-            $data['recurring']['recurringtype'] = $request->getRecurringFrequencyType();
-            $data['recurring']['totalpaymentnum'] = $request->getRecurringTotalPaymentNum();
-            $data['recurring']['frequencytype'] = $request->getRecurringFrequencyType();
-            $data['recurring']['frequencyinterval'] = $request->getRecurringFrequencyInterval();
-            $data['recurring']['startdate'] = $request->getRecurringStartDate();
+            $data['recurringtype'] = $request->getRecurringFrequencyType();
+            $data['totalpaymentnum'] = $request->getRecurringTotalPaymentNum();
+            $data['frequencytype'] = $request->getRecurringFrequencyType();
+            $data['frequencyinterval'] = $request->getRecurringFrequencyInterval();
+            $data['startdate'] = $request->getRecurringStartDate();
         }
 
         return $data;
