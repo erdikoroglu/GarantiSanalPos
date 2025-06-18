@@ -359,7 +359,7 @@ class GarantiPosClient
             $xml .= '   <TotalPaymentNum>'.$request->getRecurringTotalPaymentNum().'</TotalPaymentNum>' . PHP_EOL;
             $xml .= '   <FrequencyType>'.$request->getRecurringFrequencyType().'</FrequencyType>' . PHP_EOL;
             $xml .= '   <FrequencyInterval>'.$request->getRecurringFrequencyInterval().'</FrequencyInterval>' . PHP_EOL;
-            $xml .= '   <StartDate>'.Carbon::make($request->getRecurringStartDate())->format('YYYYMMDD').'</StartDate>' . PHP_EOL;
+            $xml .= '   <StartDate>'.$request->getRecurringStartDate().'</StartDate>' . PHP_EOL;
             $xml .= '</Recurring>' . PHP_EOL;
         }
 

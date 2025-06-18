@@ -89,7 +89,7 @@ class PaymentRequest
 
     public function getRecurringFrequencyType()
     {
-        return $this->recurringFrequencyType;
+        return $this->recurringFrequencyType ?? 'R';
     }
 
     public function setRecurringFrequencyType($frequencyType): self
