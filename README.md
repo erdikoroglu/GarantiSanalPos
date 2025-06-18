@@ -22,7 +22,7 @@ use W3\GarantiSanalPos\GarantiPosClient;
 $config = new Config([
     'merchantId' => 'MERCHANT_ID',
     'terminalId' => 'TERMINAL_ID',
-    'userId' => 'USER_ID',
+    'userId' => 'USER_ID', // PROVAUTH
     'password' => 'PASSWORD',
     'mode' => 'TEST', // veya 'PROD' canlı ortam için
 ]);
