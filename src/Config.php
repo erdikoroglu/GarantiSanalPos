@@ -13,6 +13,7 @@ class Config
     private string $merchantId;
     private bool $debugMode = false;
     private const DEBUG_API_URL = "https://garantibbvapos.com.tr/destek/postback.aspx";
+    private string $callbackUrl;
 
     /**
      * @var string Terminal ID provided by Garanti Bank
@@ -33,6 +34,8 @@ class Config
      * @var string Mode of operation (TEST or PROD)
      */
     private string $mode;
+
+    private string $storeKey;
 
     /**
      * @var string API endpoint for TEST mode
@@ -61,12 +64,15 @@ class Config
      */
     public function __construct(array $config)
     {
-        $this->merchantId = $config['merchantId'] ?? '';
-        $this->terminalId = $config['terminalId'] ?? '';
-        $this->userId = $config['userId'] ?? '';
-        $this->password = $config['password'] ?? '';
-        $this->mode = $config['mode'] ?? 'TEST';
-        $this->debugMode = $config['debugMode'] ?? false;
+        $this->merchantId = $config['merchantId'] ?? env('GARANTI_MERCHANT_ID');
+        $this->terminalId = $config['terminalId'] ?? env('GARANTI_TERMINAL_ID');
+        $this->userId = $config['userId'] ?? env('GARANTI_USER_ID');
+        $this->password = $config['password'] ?? env('GARANTI_USER_PASSWORD');
+        $this->mode = $config['mode'] ?? env('GARANTI_MODE');
+        $this->debugMode = $config['debugMode'] ?? env('GARANTI_DEBUG_MODE');
+        $this->storeKey = $config['storeKey'] ?? env('GARANTI_STORE_KEY');
+        $this->callbackUrl = $config['callbackUrl'] ?? env('GARANTI_CALLBACK_URL');
+
     }
 
     /**
@@ -122,6 +128,20 @@ class Config
         return $this->mode === 'PROD' ? self::PROD_API_URL : self::TEST_API_URL;
     }
 
+    public function getStoreKey()
+    {
+        return $this->storeKey;
+    }
+
+    public function getDebugApiUrl()
+    {
+        return self::DEBUG_API_URL;
+    }
+
+    public function getCallbackUrl()
+    {
+        return $this->callbackUrl;
+    }
     /**
      * Get 3D Secure API URL based on mode
      *
