@@ -62,6 +62,8 @@ class PaymentResponse
      */
     private array $rawData = [];
 
+
+
     /**
      * PaymentResponse constructor.
      *
@@ -102,6 +104,8 @@ class PaymentResponse
             $this->errorMessage = $this->responseMessage;
         }
     }
+
+
 
     /**
      * Set HTML content for 3D Secure

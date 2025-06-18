@@ -14,7 +14,8 @@
         "php": ">=7.4",
         "guzzlehttp/guzzle": "^7.0",
         "ext-json": "*",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "nesbot/carbon": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",

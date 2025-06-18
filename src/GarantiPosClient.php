@@ -2,6 +2,7 @@
 
 namespace W3\GarantiSanalPos;
 
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use W3\GarantiSanalPos\Enum\Currency;
@@ -192,7 +193,18 @@ class GarantiPosClient
         $xml .= '    <GroupID></GroupID>' . PHP_EOL;
         $xml .= '    <Description></Description>' . PHP_EOL;
         $xml .= '  </Order>' . PHP_EOL;
-        
+
+        if ($this->config->getRecurring())
+        {
+            $xml .= '<Recurring>' . PHP_EOL;
+            $xml .= '   <Type>R</Type>' . PHP_EOL;
+            $xml .= '   <TotalPaymentNum>'.$request->getRecurringTotalPaymentNum().'</TotalPaymentNum>' . PHP_EOL;
+            $xml .= '   <FrequencyType>'.$request->getRecurringFrequencyType().'</FrequencyType>' . PHP_EOL;
+            $xml .= '   <FrequencyInterval>'.$request->getRecurringFrequencyInterval().'</FrequencyInterval>' . PHP_EOL;
+            $xml .= '   <StartDate>'.Carbon::make($request->getRecurringStartDate())->format('YYYYMMDD').'</StartDate>' . PHP_EOL;
+            $xml .= '</Recurring>' . PHP_EOL;
+        }
+
         // Add transaction info
         $xml .= '  <Transaction>' . PHP_EOL;
         $xml .= '    <Type>' . TransactionType::getApiCode($request->getTransactionType()) . '</Type>' . PHP_EOL;
@@ -219,8 +231,9 @@ class GarantiPosClient
     {
         $terminalId = $this->config->getTerminalId();
         $securityData = $this->generateSecurityHash($request->getOrderId(),$this->config->getTerminalId(),$request->getAmount(),$this->config->getCallbackUrl(),$request->getTransactionType(),$this->config->getStoreKey(),$request->getInstallment());
-        
-        return [
+
+
+        $data = [
             'mode' => $this->config->isTestMode() ? 'TEST' : 'PROD',
             'secure3dsecuritylevel' => '3D_PAY',
             'apiversion' => 'v0.01',
@@ -241,8 +254,20 @@ class GarantiPosClient
             'cardnumber' => $request->getCardNumber(),
             'cardexpiredatemonth' => $request->getCardExpireMonth(),
             'cardexpiredateyear' => $request->getCardExpireYear(),
-            'cardcvv2' => $request->getCardCvv(),
+            'cardcvv2' => $request->getCardCvv()
         ];
+
+        if ($this->config->getRecurring())
+        {
+            $data['recurring'] = [];
+            $data['recurring']['recurringtype'] = $request->getRecurringFrequencyType();
+            $data['recurring']['totalpaymentnum'] = $request->getRecurringTotalPaymentNum();
+            $data['recurring']['frequencytype'] = $request->getRecurringFrequencyType();
+            $data['recurring']['frequencyinterval'] = $request->getRecurringFrequencyInterval();
+            $data['recurring']['startdate'] = $request->getRecurringStartDate();
+        }
+
+        return $data;
     }
 
     /**
@@ -327,7 +352,18 @@ class GarantiPosClient
         $xml .= '    <CurrencyCode>' . ($postData['txncurrencycode'] ?? Currency::TRY) . '</CurrencyCode>' . PHP_EOL;
         $xml .= '    <CardholderPresentCode>13</CardholderPresentCode>' . PHP_EOL;
         $xml .= '    <MotoInd>N</MotoInd>' . PHP_EOL;
-        
+
+        if ($this->config->getRecurring())
+        {
+            $xml .= '<Recurring>' . PHP_EOL;
+            $xml .= '   <Type>R</Type>' . PHP_EOL;
+            $xml .= '   <TotalPaymentNum>'.$request->getRecurringTotalPaymentNum().'</TotalPaymentNum>' . PHP_EOL;
+            $xml .= '   <FrequencyType>'.$request->getRecurringFrequencyType().'</FrequencyType>' . PHP_EOL;
+            $xml .= '   <FrequencyInterval>'.$request->getRecurringFrequencyInterval().'</FrequencyInterval>' . PHP_EOL;
+            $xml .= '   <StartDate>'.Carbon::make($request->getRecurringStartDate())->format('YYYYMMDD').'</StartDate>' . PHP_EOL;
+            $xml .= '</Recurring>' . PHP_EOL;
+        }
+
         // Add 3D Secure info
         $xml .= '    <Secure3D>' . PHP_EOL;
         $xml .= '      <AuthenticationCode>' . ($postData['cavv'] ?? '') . '</AuthenticationCode>' . PHP_EOL;

@@ -11,6 +11,9 @@ class Config
      * @var string Merchant ID provided by Garanti Bank
      */
     private string $merchantId;
+    private bool $recurring = false;
+
+
     private bool $debugMode = false;
     private const DEBUG_API_URL = "https://garantibbvapos.com.tr/destek/postback.aspx";
     private string $callbackUrl;
@@ -72,7 +75,13 @@ class Config
         $this->debugMode = $config['debugMode'] ?? env('GARANTI_DEBUG_MODE');
         $this->storeKey = $config['storeKey'] ?? env('GARANTI_STORE_KEY');
         $this->callbackUrl = $config['callbackUrl'] ?? env('GARANTI_CALLBACK_URL');
+        $this->recurring = $config['recurring'] ?? false;
 
+    }
+
+    public function getRecurring()
+    {
+        return $this->recurring;
     }
 
     /**

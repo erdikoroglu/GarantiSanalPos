@@ -71,7 +71,53 @@ class PaymentRequest
      * @var array Additional parameters
      */
     private array $additionalParams = [];
+    private string $recurringTotalPaymentNum;
+    private string $recurringFrequencyType;
+    private string $recurringFrequencyInterval;
+    private string $recurringStartDate;
 
+    public function setRecurringTotalPaymentNum(string  $recurringTotalPaymentNum): self
+    {
+        $this->recurringTotalPaymentNum = $recurringTotalPaymentNum;
+        return $this;
+
+    }
+    public function getRecurringTotalPaymentNum()
+    {
+        return $this->recurringTotalPaymentNum;
+    }
+
+    public function getRecurringFrequencyType()
+    {
+        return $this->recurringFrequencyType;
+    }
+
+    public function setRecurringFrequencyType($frequencyType): self
+    {
+        $this->recurringFrequencyType = $frequencyType;
+        return $this;
+
+    }
+
+    public function getRecurringFrequencyInterval()
+    {
+        return $this->recurringFrequencyInterval;
+    }
+
+    public function setRecurringFrequencyInterval($recurringFrequencyInterval): self
+    {
+        $this->recurringFrequencyInterval = $recurringFrequencyInterval;
+        return $this;
+    }
+    public function getRecurringStartDate() {
+        return $this->recurringStartDate;
+    }
+
+    public function setRecurringStartDate($recurringStartDate): self
+    {
+        $this->recurringStartDate = $recurringStartDate;
+        return $this;
+    }
 
     public function setCustomerEmail(string $customerEmail)
     {
