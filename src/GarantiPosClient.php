@@ -153,7 +153,7 @@ class GarantiPosClient
     private function preparePaymentXml(PaymentRequest $request): string
     {
         $terminalId = $this->config->getTerminalId();
-        $hash = $this->generateSecurityHash($request->getOrderId(),$this->config->getTerminalId(),$this->config->getCallbackUrl(),$request->getAmount(),$request->getCurrency(),$request->getTransactionType(),$request->getInstallment(),$this->config->getStoreKey());
+        $hash = $this->generateSecurityHash($request->getOrderId(),$this->config->getTerminalId(),$request->getAmount(),$request->getCurrency(),$this->config->getCallbackUrl(),$request->getTransactionType(),$this->config->getStoreKey(),$request->getInstallment());
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
         $xml .= '<GVPSRequest>' . PHP_EOL;
@@ -218,7 +218,7 @@ class GarantiPosClient
     private function prepare3DSecureData(PaymentRequest $request, string $callbackUrl): array
     {
         $terminalId = $this->config->getTerminalId();
-        $securityData = $this->generateSecurityHash($request->getOrderId(),$this->config->getTerminalId(),$this->config->getCallbackUrl(),$request->getAmount(),$request->getCurrency(),$request->getTransactionType(),$request->getInstallment(),$this->config->getStoreKey());
+        $securityData = $this->generateSecurityHash($request->getOrderId(),$this->config->getTerminalId(),$request->getAmount(),$request->getCurrency(),$this->config->getCallbackUrl(),$request->getTransactionType(),$this->config->getStoreKey(),$request->getInstallment());
         
         return [
             'mode' => $this->config->isTestMode() ? 'TEST' : 'PROD',
@@ -286,7 +286,7 @@ class GarantiPosClient
     private function prepare3DPaymentXml(PaymentRequest $request, array $postData): string
     {
         $terminalId = $this->config->getTerminalId();
-        $hash = $this->generateSecurityHash($request->getOrderId(),$this->config->getTerminalId(),$this->config->getCallbackUrl(),$request->getAmount(),$request->getCurrency(),$request->getTransactionType(),$request->getInstallment(),$this->config->getStoreKey());
+        $hash = $this->generateSecurityHash($request->getOrderId(),$this->config->getTerminalId(),$request->getAmount(),$request->getCurrency(),$this->config->getCallbackUrl(),$request->getTransactionType(),$this->config->getStoreKey(),$request->getInstallment());
         
         $xml = '<?xml version="1.0" encoding="UTF-8"?>' . PHP_EOL;
         $xml .= '<GVPSRequest>' . PHP_EOL;
@@ -408,7 +408,7 @@ class GarantiPosClient
      * @param string $terminalId Terminal ID
      * @return string Security hash
      */
-    private function generateSecurityHash(string $orderId, string $terminalId,string $successUrl, string $amount,string $type, ?string $installment,string $currencyCode,string $storeKey): string
+    private function generateSecurityHash(string $orderId, string $terminalId, string $amount,string $currencyCode,string $successUrl, string $type, string $storeKey,?string $installment): string
     {
         $securityData = strtoupper(sha1($this->config->getPassword() . 0 . $terminalId));
 
