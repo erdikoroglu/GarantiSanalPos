@@ -222,7 +222,7 @@ class GarantiPosClient
         
         return [
             'mode' => $this->config->isTestMode() ? 'TEST' : 'PROD',
-            'secure3dsecuritylevel' => '3D',
+            'secure3dsecuritylevel' => '3D_PAY',
             'apiversion' => 'v0.01',
             'terminalprovuserid' => $this->config->getUserId(),
             'terminaluserid' => $this->config->getUserId(),

@@ -11,6 +11,8 @@ class Config
      * @var string Merchant ID provided by Garanti Bank
      */
     private string $merchantId;
+    private bool $debugMode = false;
+    private const DEBUG_API_URL = "https://garantibbvapos.com.tr/destek/postback.aspx";
 
     /**
      * @var string Terminal ID provided by Garanti Bank
@@ -64,6 +66,7 @@ class Config
         $this->userId = $config['userId'] ?? '';
         $this->password = $config['password'] ?? '';
         $this->mode = $config['mode'] ?? 'TEST';
+        $this->debugMode = $config['debugMode'] ?? false;
     }
 
     /**
@@ -113,6 +116,9 @@ class Config
      */
     public function getApiUrl(): string
     {
+        if ($this->debugMode) {
+            return self::DEBUG_API_URL;
+        }
         return $this->mode === 'PROD' ? self::PROD_API_URL : self::TEST_API_URL;
     }
 
@@ -123,6 +129,9 @@ class Config
      */
     public function get3DApiUrl(): string
     {
+        if ($this->debugMode) {
+            return self::DEBUG_API_URL;
+        }
         return $this->mode === 'PROD' ? self::PROD_3D_API_URL : self::TEST_3D_API_URL;
     }
 
