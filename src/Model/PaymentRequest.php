@@ -65,11 +65,24 @@ class PaymentRequest
      */
     private string $customerIp = '';
 
+    private string $customerEmail = '';
+
     /**
      * @var array Additional parameters
      */
     private array $additionalParams = [];
 
+
+    public function setCustomerEmail(string $customerEmail)
+    {
+        $this->customerEmail = $customerEmail;
+        return $this;
+    }
+
+    public function getCustomerEmail()
+    {
+        return $this->customerEmail;
+    }
     /**
      * Set order ID
      *
@@ -396,6 +409,7 @@ class PaymentRequest
             && !empty($this->cardNumber)
             && !empty($this->cardExpireMonth)
             && !empty($this->cardExpireYear)
+            && !empty($this->customerEmail)
             && !empty($this->cardCvv);
     }
 }

@@ -176,7 +176,7 @@ class GarantiPosClient
         // Add customer info
         $xml .= '  <Customer>' . PHP_EOL;
         $xml .= '    <IPAddress>' . $request->getCustomerIp() . '</IPAddress>' . PHP_EOL;
-        $xml .= '    <EmailAddress></EmailAddress>' . PHP_EOL;
+        $xml .= '    <EmailAddress>'.$request->getCustomerEmail().'</EmailAddress>' . PHP_EOL;
         $xml .= '  </Customer>' . PHP_EOL;
         
         // Add card info
@@ -235,7 +235,7 @@ class GarantiPosClient
             'orderid' => $request->getOrderId(),
             'successurl' => $callbackUrl,
             'errorurl' => $callbackUrl,
-            'customeremailaddress' => '',
+            'customeremailaddress' => $request->getCustomerEmail(),
             'customeripaddress' => $request->getCustomerIp(),
             'secure3dhash' => $securityData,
             'cardnumber' => $request->getCardNumber(),
